@@ -1,2 +1,2 @@
-./vuepractice/book_service/node_modules/*
-./vuepractice/movie_view/node_modules/*
+/vuepractice/book_service/node_modules
+/vuepractice/movie_view/node_modules
