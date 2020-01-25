@@ -1,5 +1,2 @@
-./vuepractice/book_service/node_modules
-./vuepractice/movie_view/node_modules
-
-
-a.txt
+./vuepractice/book_service/node_modules/*
+./vuepractice/movie_view/node_modules/*
