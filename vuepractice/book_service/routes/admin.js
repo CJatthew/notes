@@ -135,7 +135,7 @@ router.post('/movieUpdate', function(req, res, next) {
 	}
 });
 
-router.get('/movie', function(req, res. next) {
+router.get('/movie', function(req, res, next) {
 	movie.findAll(function(err, allMovie) {
 		res.json({status: 0, message: "獲取成功", data: allMovie});
 	});
@@ -480,7 +480,7 @@ router.post('/delRecommend', function(req, res, next) {
 		res.json({status: 1, message: "登錄出錯"});
 	}
 
-	if (！req.body.id) {
+	if (!req.body.id) {
 		res.json({status: 1, message: "用戶傳遞錯誤"});
 	}
 
@@ -521,4 +521,6 @@ function getMD5Password(id) {
     var token_before = id + init_token
     // res.json(userSave[0]._id)
     return md5.update(token_before).digest('hex')
+}
 
+module.exports = router;
