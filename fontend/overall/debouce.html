@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+</head>
+<body>
+	<div>
+		<label for="undebounce">undebounce</label>
+		<input type="text" name="undebounce" id="undebounce">
+	</div>
+	<div>
+		<label for="debounce">debounce</label>
+		<input type="text" name="debounce" id="debounce">
+	</div>
+	<div>
+		<label for="throttle">throttle</label>
+		<input type="text" name="throttle" id="throttle">
+	</div>
+	<script type="text/javascript">
+		function ajax(content) {
+			console.log("request data: " + content)
+		}
+		
+		let inputa = document.querySelector('#undebounce')
+		inputa.addEventListener('keyup', function(e) {
+			ajax(e.target.value)
+		})
+		
+		
+		function debounce(delay, callback) {
+			let timeFlag
+			
+			return function(args) {
+				let that = this
+				
+				clearTimeout(timeFlag)
+				timeFlag = setTimeout(function() {
+					callback.call(that, args)
+				}, 1000)
+			}
+		}
+		
+		let inputb = document.querySelector('#debounce')
+		let debounceAjax = debounce(1000, ajax)
+		inputb.addEventListener('keyup', function(e) {
+				debounceAjax(e.target.value)
+			}
+		)
+		
+		function throttle(delay, callback) {
+			let timeDiffer, last
+			
+			return function(args) {
+				let now = Date.now()
+				let that = this
+				
+				if (last && now < last + delay) {	
+					clearTimeout(timeDiffer)
+					timeDiffer = setTimeout(function() {
+						last = now
+						callback.call(that, args)
+					}, 1000)
+				} else {
+					last = now
+					callback.call(that, args)
+				}
+			}
+		}
+		
+		let inputc = document.querySelector('#throttle')
+		let throttleAjax = throttle(1000, ajax)
+		inputc.addEventListener('keyup', function(e) {
+			throttleAjax(e.target.value)
+		})
+	</script>
+</body>
+</html>
