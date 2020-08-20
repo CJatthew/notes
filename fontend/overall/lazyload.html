@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+	<style type="text/css">
+		.img-item {
+			display: block;
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<img class="img-item" src='' lazyload="true" data-original="./pka.jpg" >
+	<img class="img-item" src='' lazyload="true" data-original="./2.jpg" >
+	<img class="img-item" src="" lazyload="true" data-original="./3.jpg" >
+	<img class="img-item" src="" lazyload="true" data-original="./4.jpg" >
+	<img class="img-item" src="" lazyload="true" data-original="./5.jpg" >
+	<img class="img-item" src="" lazyload="true" data-original="./6.jpg" >
+	<img class="img-item" src="" lazyload="true" data-original="./7.jpg" >
+	<img class="img-item" src="" lazyload="true" data-original="./8.jpg" >
+	<script type="text/javascript">
+		let viewHeight = document.documentElement.clientHeight
+		
+		function lazyLoad() {
+			let eles = document.querySelectorAll('img[lazyload][data-original]')
+			
+			Array.prototype.forEach.call(eles, function(item, index) {
+				if (!item.dataset.original) {
+					return
+				}
+				
+				let rect = item.getBoundingClientRect()
+				
+				if (rect.bottom >= 0 && rect.top < viewHeight) {
+					(function(ite){
+						let img = new Image()
+						img.src = item.dataset.original
+						img.onload = function() {
+							ite.src = img.src
+							ite.removeAttribute('data-original')
+							ite.removeAttribute('lazyload')
+						}
+					})(item)
+				}
+			})
+		}
+		
+		lazyLoad()
+		
+		document.addEventListener('scroll', lazyLoad)
+	</script>
+</body>
+</html>
