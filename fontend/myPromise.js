@@ -49,14 +49,16 @@ class MyPromise {
 			return new MyPromise((resolveFn, rejectFn) => {
 				const resolved = value => {
 					try {
-						
+						const res = resolve(value)
+
+						res instanceof MyPromise ? MyPromise.then(resolveFn, rejectFn) : resolveFn(res)						
 					} catch(e) {
 						rejectFn(e)
 					}
 				}
 
 				const rejected = reason => {
-
+						const res = reject(value)
 				}
 			})
 		}
