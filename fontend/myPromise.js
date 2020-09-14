@@ -51,20 +51,40 @@ class MyPromise {
 					try {
 						const res = resolve(value)
 
-						res instanceof MyPromise ? MyPromise.then(resolveFn, rejectFn) : resolveFn(res)						
+						res instanceof MyPromise ? res.then(resolveFn, rejectFn) : resolveFn(res)						
 					} catch(e) {
 						rejectFn(e)
 					}
 				}
 
 				const rejected = reason => {
-						const res = reject(value)
+					try {
+						const res = reject(reason)
+
+						res instanceof MyPromise ? res.then(resolveFn, rejectFn) : rejectFn(res)
+					} catch(e) {
+						rejectFn(e instanceof Error ? e.message : e)
+					}	
+				}
+
+
+				switch(this.status) {
+					case RESOLVED:
+						resolved(this.value)
+						break
+					case REJECTED:
+						rejected(this.reason)
+						break
+					case PENDING:
+						this.resolves.push(resolved)
+						this.rejects.push(rejected)
+						break
 				}
 			})
 		}
 
 		catch(errorFn) {
-			
+			this.then(null, errorFn)
 		}
 
 		finally() {
